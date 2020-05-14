@@ -28,16 +28,56 @@ namespace SequencesParser
             DifferenceList diffs = new DifferenceList();
             diffs.Differences = new List<Difference>();
 
-            for(int i=0; i < italy.Length; i++)
+            for(int i=0; i < italy.Length; i++ )
             {
+                int j = 1;
+                int k = i;
+                
                 if (italy.ElementAt(i) != china.ElementAt(i))
                 {
-                    Difference diff = new Difference();
-                    diff.Newletter = italy.ElementAt(i);
-                    diff.Oldletter = china.ElementAt(i);
-                    diff.Position = i;
-                    diffs.Differences.Add(diff);
+                    string conc = italy.ElementAt(i).ToString();
+                    string oldconc = china.ElementAt(i).ToString();
+                    Difference d = new Difference();
+                    if (italy.ElementAt(i + j) != china.ElementAt(i + j) && (i + j < china.Length - 1))
+                    {
+                        while (italy.ElementAt(i + j) != china.ElementAt(i + j) && (i + j < china.Length - 1))
+                        {
+
+                            conc = conc + "" + italy.ElementAt(i + j).ToString();
+                            oldconc = oldconc + "" + china.ElementAt(i + j).ToString();
+                            d.Newletter = conc;
+                            d.Oldletter = oldconc;
+                            d.Position = i;
+                            j++;
+
+
+                        }
+                        if (d != null)
+                        {
+                            diffs.Differences.Add(d);
+
+                        }
+                    }
+                    else
+                    {
+                        Difference diff = new Difference();
+                        diff.Newletter = italy.ElementAt(i).ToString();
+                        diff.Oldletter = china.ElementAt(i).ToString();
+                        diff.Position = i;
+                        diffs.Differences.Add(diff);
+                    }
+
+                   
+
+
+                    if (i < italy.Length-1)
+                    {
+                        i = i + j;
+                    }
+                   
+                    
                 }
+                
 
                
 

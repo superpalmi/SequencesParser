@@ -10,11 +10,11 @@ namespace SequencesParser
     {
         private int position;
 
-        private char newletter;
-        private char oldletter;
+        private string newletter;
+        private string oldletter;
 
         public int Position { get => position; set => position = value; }
-        public char Newletter { get => newletter; set => newletter = value; }
-        public char Oldletter { get => oldletter; set => oldletter = value; }
+        public string Newletter { get => newletter; set => newletter = value; }
+        public string Oldletter { get => oldletter; set => oldletter = value; }
     }
 }
