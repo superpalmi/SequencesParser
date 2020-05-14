@@ -15,7 +15,7 @@ namespace SequencesParser
 
             // String rawJSON = JsonConvert.DeserializeObject(file);
             SequencesList list = new SequencesList();
-            list = JsonConvert.DeserializeObject<SequencesList>(File.ReadAllText(@"E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json"));
+            list = JsonConvert.DeserializeObject<SequencesList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json"));
            // StreamReader file = File.OpenText(@"E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json");
             
            //sonSerializer serializer = new JsonSerializer();
@@ -25,7 +25,8 @@ namespace SequencesParser
             string china = list.Sequences.ElementAt(0).Seq;
             string italy = list.Sequences.ElementAt(1).Seq;
 
-            List<Difference> diffs = new List<Difference>();
+            DifferenceList diffs = new DifferenceList();
+            diffs.Differences = new List<Difference>();
 
             for(int i=0; i < italy.Length; i++)
             {
@@ -35,18 +36,22 @@ namespace SequencesParser
                     diff.Newletter = italy.ElementAt(i);
                     diff.Oldletter = china.ElementAt(i);
                     diff.Position = i;
-                    diffs.Add(diff);
+                    diffs.Differences.Add(diff);
                 }
 
                
 
             }
-
-            if (diffs.Count > 0)
+           // string diffJSON = JsonConvert.SerializeObject(diffs);
+            JsonSerializer serializer = new JsonSerializer();
+            StreamWriter sw = new StreamWriter(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\differences.json");
+            JsonWriter writer = new JsonTextWriter(sw);
+            serializer.Serialize(writer, diffs);
+            if (diffs.Differences.Count > 0)
             {
-               for(int i=0; i<diffs.Count; i++)
+               for(int i=0; i< diffs.Differences.Count; i++)
                 {
-                    Console.WriteLine(diffs.ElementAt(i).Newletter + " al posto di " + diffs.ElementAt(i).Oldletter + " in posizione " + diffs.ElementAt(i).Position);
+                    Console.WriteLine(diffs.Differences.ElementAt(i).Newletter + " al posto di " + diffs.Differences.ElementAt(i).Oldletter + " in posizione " + diffs.Differences.ElementAt(i).Position);
                 }
             }
 

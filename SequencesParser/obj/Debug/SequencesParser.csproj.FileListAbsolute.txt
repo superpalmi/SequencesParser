@@ -8,3 +8,13 @@ E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesPa
 E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csproj.CopyComplete
 E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.exe
 E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.pdb
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\SequencesParser.exe.config
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\SequencesParser.exe
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\SequencesParser.pdb
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csprojAssemblyReference.cache
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csproj.CoreCompileInputs.cache
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csproj.CopyComplete
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.exe
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.pdb
