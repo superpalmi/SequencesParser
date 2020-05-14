@@ -1,0 +1,9 @@
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Release\SequencesParser.exe.config
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Release\SequencesParser.exe
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Release\SequencesParser.pdb
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Release\Newtonsoft.Json.dll
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Release\Newtonsoft.Json.xml
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Release\SequencesParser.csproj.CoreCompileInputs.cache
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Release\SequencesParser.csproj.CopyComplete
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Release\SequencesParser.exe
+E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Release\SequencesParser.pdb
