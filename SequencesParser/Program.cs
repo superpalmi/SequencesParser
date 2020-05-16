@@ -29,11 +29,11 @@ namespace SequencesParser
             Rootobject root = new Rootobject();
             root = JsonConvert.DeserializeObject<Rootobject>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json"));
            
-            Rootobject.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat seqfeat = new SeqFeat();
+           // Rootobject.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat seqfeat = new SeqFeat();
             //root.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat w = new SeqFeat();
-            SeqFeat[] f = new SeqFeat[100];
+          //  SeqFeat[] f = new SeqFeat[100];
            // root.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat feat = new SeqFeat();
-           f = root.BioSeqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat;
+          // f = root.BioSeqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat;
             //sonSerializer serializer = new JsonSerializer();
 
 
@@ -60,7 +60,7 @@ namespace SequencesParser
                 diffs = DifferenceCalculator(diffs, seq1, seq2);
                 for (int k = 0; k < diffs.Differences.Count; k++)
                 {
-                    for(int w=0; w<f.Length; w++)
+                    /*for(int w=0; w<f.Length; w++)
                     {
                         for(int c=0; c< f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.Length; c++)
                         {
@@ -73,7 +73,7 @@ namespace SequencesParser
                         }
                         
                         
-                    }
+                    }*/
                 }
                 o.DifferenceLists.Add(diffs);
                
