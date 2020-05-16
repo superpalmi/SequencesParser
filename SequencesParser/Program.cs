@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace SequencesParser
 {
@@ -18,14 +20,34 @@ namespace SequencesParser
             SequencesList list = new SequencesList();
             list = JsonConvert.DeserializeObject<SequencesList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json"));
             // StreamReader file = File.OpenText(@"E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\seq1 JSON.json");
+            string xml = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence china xml.xml");
 
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            string json = JsonConvert.SerializeXmlNode(doc);
+            File.WriteAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json", json);
+            Rootobject root = new Rootobject();
+            root = JsonConvert.DeserializeObject<Rootobject>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json"));
+           
+            Rootobject.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat seqfeat = new SeqFeat();
+            //root.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat w = new SeqFeat();
+            SeqFeat[] f = new SeqFeat[100];
+           // root.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat feat = new SeqFeat();
+           f = root.BioSeqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat;
             //sonSerializer serializer = new JsonSerializer();
 
 
             //SequencesList list = (SequencesList)serializer.Deserialize(file, typeof(SequencesList));
             DifferenceOutput o = new DifferenceOutput();
             o.DifferenceLists = new List<DifferenceList>();
-           
+            /*
+            var stringRanges = JObject.Parse(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence.gb.json")["range"]["join"].Children();
+            List<Range> ranges = stringRanges.Select(c => c.ToObject<int[]>())
+                                             .Select(c => new Range(c[0], c[1])).ToList(); */
+
+           // FeatureList features = new FeatureList();
+            //features = JsonConvert.DeserializeObject<FeatureList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence.gb.json"));
+
             Console.WriteLine(list.Sequences.Count);
             for (int i=1; i < list.Sequences.Count; i++)
             {
@@ -36,6 +58,23 @@ namespace SequencesParser
                 diffs.Seq1 = list.Sequences.ElementAt(0);
                 diffs.Seq2 = list.Sequences.ElementAt(i);
                 diffs = DifferenceCalculator(diffs, seq1, seq2);
+                for (int k = 0; k < diffs.Differences.Count; k++)
+                {
+                    for(int w=0; w<f.Length; w++)
+                    {
+                        for(int c=0; c< f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.Length; c++)
+                        {
+                            int from = int.Parse(f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.ElementAt(c).Seqinterval_from);
+                            int to = int.Parse(f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.ElementAt(c).Seqinterval_to);
+                            if ((diffs.Differences.ElementAt(k).Position > from) && (diffs.Differences.ElementAt(k).Position < to))
+                            {
+                                diffs.Differences.ElementAt(k).Protein = f.ElementAt(w).Seqfeat_comment;
+                            }
+                        }
+                        
+                        
+                    }
+                }
                 o.DifferenceLists.Add(diffs);
                
                 if (diffs.Differences.Count > 0)
@@ -60,9 +99,14 @@ namespace SequencesParser
             //  string stop = "stop";
 
             // Console.WriteLine(stop);
+            /*
+            var stringRanges = JObject.Parse(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence.gb.json")["range"]["join"].Children();
+            List<Range> ranges = stringRanges.Select(c => c.ToObject<int[]>())
+                                             .Select(c => new Range(c[0], c[1])).ToList();
 
-
-
+             */
+            
+           
 
         }
         public static DifferenceList DifferenceCalculator(DifferenceList diffs, String seq1, String seq2)

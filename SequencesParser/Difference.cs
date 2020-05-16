@@ -12,9 +12,11 @@ namespace SequencesParser
 
         private string newletter;
         private string oldletter;
+        private string protein;
 
         public int Position { get => position; set => position = value; }
         public string Newletter { get => newletter; set => newletter = value; }
         public string Oldletter { get => oldletter; set => oldletter = value; }
+        public string Protein { get => protein; set => protein = value; }
     }
 }
