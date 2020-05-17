@@ -36,6 +36,9 @@
     <Reference Include="Bio.Core, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NetBio.Core.3.0.0-alpha\lib\netstandard2.0\Bio.Core.dll</HintPath>
     </Reference>
+    <Reference Include="JQ.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JQ.NET.1.0.4\lib\JQ.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -59,14 +62,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sequence.cs" />
     <Compile Include="SequencesList.cs" />
+    <Compile Include="XMLfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="asn1 file.asn1" />
     <None Include="china JSON.json" />
     <None Include="differences.json" />
     <None Include="file.json" />
     <None Include="packages.config" />
     <None Include="sequence.gb.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="jq.exe" />
+    <Content Include="sequence china xml.xml" />
+    <Content Include="sequenzarefXML.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

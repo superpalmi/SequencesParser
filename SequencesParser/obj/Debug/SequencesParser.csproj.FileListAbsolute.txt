@@ -116,3 +116,4 @@ C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\Syst
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\System.Xml.XPath.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\System.Xml.XPath.XDocument.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\Bio.Core.dll
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\JQ.Net.dll

@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace SequencesParser
 {
@@ -20,20 +21,26 @@ namespace SequencesParser
             SequencesList list = new SequencesList();
             list = JsonConvert.DeserializeObject<SequencesList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json"));
             // StreamReader file = File.OpenText(@"E:\Dropbox\Dropbox\bioinfo\SequencesParser\SequencesParser\seq1 JSON.json");
-            string xml = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence china xml.xml");
+             string xml = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequenzarefXML.xml");
+            Bioseqset file = new Bioseqset();
+            file.DeserializeObject(xml);
+            // T Bioseqset = default(T);
+            BioseqsetBioseqset_seqsetSeqentrySeqentry_setBioseqsetBioseqset_annotSeqannotSeqannot_dataSeqfeat[] seqfeats = file.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable;
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(xml);
-            string json = JsonConvert.SerializeXmlNode(doc);
-            File.WriteAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json", json);
-            Rootobject root = new Rootobject();
-            root = JsonConvert.DeserializeObject<Rootobject>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json"));
-           
-           // Rootobject.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat seqfeat = new SeqFeat();
+
+            //File.WriteAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json", json);
+            //   Root root = new Root();
+
+
+            //  root = JsonConvert.DeserializeObject<Root>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json"));
+
+
+
+            // Rootobject.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat seqfeat = new SeqFeat();
             //root.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat w = new SeqFeat();
-          //  SeqFeat[] f = new SeqFeat[100];
-           // root.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat feat = new SeqFeat();
-          // f = root.BioSeqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat;
+
+            // bioseqSet.Bioseqset.Bioseqset_seqset.Seqentry.Seqentry_set.Bioseqset.Bioseqset_annot.Seqannot.Seqannot_data.Seqannot_data_ftable.Seqfeat feat = new SeqFeat();
+
             //sonSerializer serializer = new JsonSerializer();
 
 
@@ -60,21 +67,32 @@ namespace SequencesParser
                 diffs = DifferenceCalculator(diffs, seq1, seq2);
                 for (int k = 0; k < diffs.Differences.Count; k++)
                 {
-                    /*for(int w=0; w<f.Length; w++)
+                    for (int w = 0; w < seqfeats.Length; w++)
                     {
-                        for(int c=0; c< f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.Length; c++)
+                        for (int c = 0; c < seqfeats.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Length; c++)
                         {
-                            int from = int.Parse(f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.ElementAt(c).Seqinterval_from);
-                            int to = int.Parse(f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.ElementAt(c).Seqinterval_to);
+                            int from = seqfeats.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.ElementAt(c).Seqinterval_from;
+                            int to = seqfeats.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.ElementAt(c).Seqinterval_to;
                             if ((diffs.Differences.ElementAt(k).Position > from) && (diffs.Differences.ElementAt(k).Position < to))
                             {
-                                diffs.Differences.ElementAt(k).Protein = f.ElementAt(w).Seqfeat_comment;
+                                diffs.Differences.ElementAt(k).Protein = seqfeats.ElementAt(w).Seqfeat_comment;
                             }
                         }
-                        
-                        
-                    }*/
-                }
+                    }
+                
+                        /* for(int c=0; c< f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.Length; c++)
+                         {
+                             int from = int.Parse(f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.ElementAt(c).Seqinterval_from);
+                             int to = int.Parse(f.ElementAt(w).Seqfeat_location.Seqloc.Seqloc_packedint.Packedseqint.Seqinterval.ElementAt(c).Seqinterval_to);
+                             if ((diffs.Differences.ElementAt(k).Position > from) && (diffs.Differences.ElementAt(k).Position < to))
+                             {
+                                 diffs.Differences.ElementAt(k).Protein = f.ElementAt(w).Seqfeat_comment;
+                             }
+                         }*/
+
+
+                    }
+                
                 o.DifferenceLists.Add(diffs);
                
                 if (diffs.Differences.Count > 0)
@@ -109,6 +127,9 @@ namespace SequencesParser
            
 
         }
+
+       
+
         public static DifferenceList DifferenceCalculator(DifferenceList diffs, String seq1, String seq2)
         {
             diffs.Differences = new List<Difference>();
@@ -171,5 +192,34 @@ namespace SequencesParser
 
             return diffs;
         }
+
+       
+
+        /*
+        protected T FromXml<T>(String xml)
+        {
+            T returnedXmlClass = default(T);
+
+            try
+            {
+                using (TextReader reader = new StringReader(xml))
+                {
+                    try
+                    {
+                        returnedXmlClass =
+                            (T)new XmlSerializer(typeof(T)).Deserialize(reader);
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // String passed is not XML, simply return defaultXmlClass
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return returnedXmlClass;
+        }*/
     }
 }
