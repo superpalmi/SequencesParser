@@ -24,11 +24,11 @@ namespace SequencesParser
             };*/
             string file1 = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json");
             string file2 = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json");
-    
-                // String rawJSON = JsonConvert.DeserializeObject(file);
+            string file3= File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\italy china.json");
+            // String rawJSON = JsonConvert.DeserializeObject(file);
             SequencesList list = new SequencesList();
             
-            list = JsonConvert.DeserializeObject<SequencesList>(file1);
+            list = JsonConvert.DeserializeObject<SequencesList>(file3);
            
             GenesList genesList= new GenesList();
 
@@ -37,25 +37,39 @@ namespace SequencesParser
             DifferenceOutput o = new DifferenceOutput();
             o.DifferenceLists = new List<DifferenceList>();
             /*
-            var stringRanges = JObject.Parse(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence.gb.json")["range"]["join"].Children();
+            var stringRanges = JObject.Parse(@"C:\Users\Riccardo\Dropbox\bioinfo\SeqsParser\SeqsParser\sequence.gb.json")["range"]["join"].Children();
             List<Range> ranges = stringRanges.Select(c => c.ToObject<int[]>())
                                              .Select(c => new Range(c[0], c[1])).ToList(); */
 
             // FeatureList features = new FeatureList();
-            //features = JsonConvert.DeserializeObject<FeatureList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\sequence.gb.json"));
+            //features = JsonConvert.DeserializeObject<FeatureList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SeqsParser\SeqsParser\sequence.gb.json"));
             DifferenceList diffs = new DifferenceList();
-            Console.WriteLine(list.Sequences.Count);
-            for (int i = 1; i < list.Sequences.Count; i++)
+            Console.WriteLine(list.Seqs.Count);
+            Sequence reference = new Sequence();
+            for(int i=0; i<list.Seqs.Count; i++)
             {
-                string seq1 = list.Sequences.ElementAt(0).Seq;
-                string seq2 = list.Sequences.ElementAt(i).Seq;
+
+                if (list.Seqs.ElementAt(i).Id == "224846225")
+                {
+                    reference = list.Seqs.ElementAt(i);
+                }
+                else if (list.Seqs.ElementAt(i).Name == "1916215434")
+                {
+                    reference = list.Seqs.ElementAt(i);
+                }
+                
+            }
+            for (int i = 0; i < list.Seqs.Count; i++)
+            {
+                string seq1 = reference.Seq;
+                string seq2 = list.Seqs.ElementAt(i).Seq;
 
 
-                diffs.Seq1 = list.Sequences.ElementAt(0);
-                diffs.Seq2 = list.Sequences.ElementAt(i);
+                diffs.Seq1 = reference;
+                diffs.Seq2 = list.Seqs.ElementAt(i);
                 diffs = DifferenceCalculator(diffs, seq1, seq2);
                 o.DifferenceLists.Add(diffs);
-
+                Console.WriteLine("measuring differencese part: " + i);
             }
             for (int j = 0; j < o.DifferenceLists.Count; j++)
             {
@@ -77,6 +91,8 @@ namespace SequencesParser
 
                     }
                 }
+                Console.WriteLine("writing genes part" + j);
+
             }
 
 
