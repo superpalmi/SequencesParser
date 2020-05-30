@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace SequencesParser
 {
+    /// <summary>
+    /// Oggetto per deserializzare la lista di sequenze
+    /// </summary>
     public class SequencesList 
     {
 

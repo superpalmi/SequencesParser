@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SequencesParser
 {
-   public class GenesList
+    /// <summary>
+    /// Oggetto per deserializzare la lista di gene-annotation
+    /// </summary>
+    public class GenesList
     {
         public IList<Gene> geneslist{ get; set; }
 

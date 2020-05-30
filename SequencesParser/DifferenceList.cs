@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SequencesParser
-{
+{   /// <summary>
+    /// Oggetto per serializzare una lista di differenze tra due sequenze
+    /// </summary>
     public class DifferenceList
     {
         private Sequence seq1;

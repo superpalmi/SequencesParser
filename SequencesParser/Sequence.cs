@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace SequencesParser
 {
+    /// <summary>
+    /// Oggetto per deserializzare la singola sequenza
+    /// </summary>
     public class Sequence
     {
         string name;

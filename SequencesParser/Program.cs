@@ -13,7 +13,7 @@ using System.Xml.Serialization;
 namespace SequencesParser
 {
     /// <summary>
-    /// Prende in input le sequenze allineate con la cina, la gene annotation e stampa in output un file di differenze
+    /// Prende in input le sequenze allineate con la cina, la gene annotation e stampa in output un file di differenze comprendenti i geni
     /// </summary>
     public class Program
     {
@@ -25,14 +25,15 @@ namespace SequencesParser
 
             string file2 = File.ReadAllText(path1);
             string file3= File.ReadAllText(path2);
+            //deserializzo file di sequenze allineate
             SequencesList list = new SequencesList();
       
             list = JsonConvert.DeserializeObject<SequencesList>(file3);
-           
+            //deserializzo file dei geni
             GenesList genesList= new GenesList();
 
             genesList = JsonConvert.DeserializeObject<GenesList>(file2);
-           
+           //creo l'oggetto delle variazioni da stampare in output
             DifferenceOutput o = new DifferenceOutput();
             o.DifferenceLists = new List<DifferenceList>();
           
@@ -43,7 +44,7 @@ namespace SequencesParser
             for(int i=0; i<list.Seqs.Count; i++)
             {
 
-                if (list.Seqs.ElementAt(i).Id == "224846225")
+                if (list.Seqs.ElementAt(i).Name == "hCoV-19/Wuhan/IPBCAMS-WH-01/2019|EPI_ISL_402123|2019-12-24/1-29899")
                 {
                     reference = list.Seqs.ElementAt(i);
                 }
@@ -64,7 +65,7 @@ namespace SequencesParser
                 diffs.Seq2 = list.Seqs.ElementAt(i);
                 diffs = DifferenceCalculator(diffs, seq1, seq2);
                 o.DifferenceLists.Add(diffs);
-                Console.WriteLine("measuring differencese part: " + i);
+                Console.WriteLine("measuring differences part: " + i);
             }
             //scrive i geni corrispondenti
             for (int j = 0; j < o.DifferenceLists.Count; j++)
@@ -87,11 +88,11 @@ namespace SequencesParser
 
                     }
                 }
-                Console.WriteLine("writing genes part" + j);
+                Console.WriteLine("writing genes part: " + j);
 
             }
 
-
+            //stampa a video le differenze
             if (diffs.Differences.Count > 0)
             {
                 for (int j = 0; j < diffs.Differences.Count; j++)

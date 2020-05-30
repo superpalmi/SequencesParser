@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SequencesParser
-{
+{   /// <summary>
+    /// Oggetto per serializzare una singola differenza
+    /// </summary>
     public class Difference
     {
         private int position;
