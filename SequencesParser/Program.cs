@@ -12,22 +12,19 @@ using System.Xml.Serialization;
 
 namespace SequencesParser
 {
+    /// <summary>
+    /// Prende in input le sequenze allineate con la cina, la gene annotation e stampa in output un file di differenze
+    /// </summary>
     public class Program
     {
         static void Main(string[] args)
         {
-            /*
-            var settings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
-            };*/
-            string file1 = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\china JSON.json");
-            string file2 = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\file.json");
-            string file3= File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\italy china.json");
-            // String rawJSON = JsonConvert.DeserializeObject(file);
+           
+          
+            string file2 = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\gene-annotation.json");
+            string file3= File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\alligned-sequences.json");
             SequencesList list = new SequencesList();
-            
+      
             list = JsonConvert.DeserializeObject<SequencesList>(file3);
            
             GenesList genesList= new GenesList();
@@ -36,16 +33,11 @@ namespace SequencesParser
            
             DifferenceOutput o = new DifferenceOutput();
             o.DifferenceLists = new List<DifferenceList>();
-            /*
-            var stringRanges = JObject.Parse(@"C:\Users\Riccardo\Dropbox\bioinfo\SeqsParser\SeqsParser\sequence.gb.json")["range"]["join"].Children();
-            List<Range> ranges = stringRanges.Select(c => c.ToObject<int[]>())
-                                             .Select(c => new Range(c[0], c[1])).ToList(); */
-
-            // FeatureList features = new FeatureList();
-            //features = JsonConvert.DeserializeObject<FeatureList>(File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SeqsParser\SeqsParser\sequence.gb.json"));
+          
             DifferenceList diffs = new DifferenceList();
             Console.WriteLine(list.Seqs.Count);
             Sequence reference = new Sequence();
+            //trova la sequenza reference
             for(int i=0; i<list.Seqs.Count; i++)
             {
 
@@ -59,6 +51,7 @@ namespace SequencesParser
                 }
                 
             }
+            //per ogni sequenza allineata calcola le differenze con la ref
             for (int i = 0; i < list.Seqs.Count; i++)
             {
                 string seq1 = reference.Seq;
@@ -71,6 +64,7 @@ namespace SequencesParser
                 o.DifferenceLists.Add(diffs);
                 Console.WriteLine("measuring differencese part: " + i);
             }
+            //scrive i geni corrispondenti
             for (int j = 0; j < o.DifferenceLists.Count; j++)
             {
                 for (int k = 0; k < o.DifferenceLists.ElementAt(j).Differences.Count; k++)
@@ -114,7 +108,7 @@ namespace SequencesParser
         
 
        
-
+        //conta le differenze tra due sequenze
         public static DifferenceList DifferenceCalculator(DifferenceList diffs, String seq1, String seq2)
         {
             diffs.Differences = new List<Difference>();

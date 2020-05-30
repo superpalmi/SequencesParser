@@ -75,12 +75,9 @@
     <None Include="App.config" />
     <None Include="china JSON.json" />
     <None Include="differences.json" />
-    <None Include="file.json" />
-    <None Include="italy china.json" />
+    <None Include="gene-annotation.json" />
+    <None Include="alligned-sequences.json" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="jq.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
