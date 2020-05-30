@@ -19,10 +19,12 @@ namespace SequencesParser
     {
         static void Main(string[] args)
         {
-           
-          
-            string file2 = File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\gene-annotation.json");
-            string file3= File.ReadAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\alligned-sequences.json");
+            var path = Directory.GetCurrentDirectory();
+            var path1 = Path.Combine(Directory.GetCurrentDirectory(), "gene-annotation.json");
+            var path2= Path.Combine(Directory.GetCurrentDirectory(), "alligned-sequences.json");
+
+            string file2 = File.ReadAllText(path1);
+            string file3= File.ReadAllText(path2);
             SequencesList list = new SequencesList();
       
             list = JsonConvert.DeserializeObject<SequencesList>(file3);
@@ -45,7 +47,7 @@ namespace SequencesParser
                 {
                     reference = list.Seqs.ElementAt(i);
                 }
-                else if (list.Seqs.ElementAt(i).Name == "1916215434")
+                else if (list.Seqs.ElementAt(i).Name == "NC_045512.2/1-29903")
                 {
                     reference = list.Seqs.ElementAt(i);
                 }
@@ -100,7 +102,8 @@ namespace SequencesParser
 
 
               string diffJSON = JsonConvert.SerializeObject(o);
-             System.IO.File.WriteAllText(@"C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\differences.json", diffJSON);
+           var path3= Path.Combine(Directory.GetCurrentDirectory(), "differences.json");
+            System.IO.File.WriteAllText(path3, diffJSON);
         
 
 

@@ -72,12 +72,13 @@
     <Compile Include="SequencesList.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="alligned-sequences.json" />
     <None Include="App.config" />
-    <None Include="china JSON.json" />
     <None Include="differences.json" />
     <None Include="gene-annotation.json" />
-    <None Include="alligned-sequences.json" />
+    <None Include="kalign.fasta" />
     <None Include="packages.config" />
+    <None Include="sequences.fasta" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions />
