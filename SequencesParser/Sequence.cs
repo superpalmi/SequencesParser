@@ -18,6 +18,7 @@ namespace SequencesParser
         string id;
         string seq;
         int order;
+        
 
         public string Name { get => name; set => name = value; }
         public int Start { get => start; set => start = value; }

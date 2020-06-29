@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -56,6 +57,24 @@ namespace SequencesParser
                 }
                 
             }
+            //dividere la sequenza ref in codoni
+            List<string> codons = new List<string>();
+            for (int i=0; i<reference.Seq.Length; i+=3)
+            {
+               
+                string seq = reference.Seq;
+                string codon = seq.ElementAt(i).ToString()+seq.ElementAt(i+1).ToString()+seq.ElementAt(i+2).ToString();
+                codons.Add(codon);
+                
+
+
+            }
+
+
+
+
+
+
             //per ogni sequenza allineata calcola le differenze con la ref
             for (int i = 0; i < list.Seqs.Count; i++)
             {
@@ -87,7 +106,7 @@ namespace SequencesParser
                     {
                         for (int w = 0; w < genesList.geneslist.Count(); w++)
                         {
-                            if (genesList.geneslist.ElementAt(w).gbkey == "Gene")
+                            if (genesList.geneslist.ElementAt(w).type == "CDS")
                             {
                                 int start = genesList.geneslist.ElementAt(w).start;
                                 int end = genesList.geneslist.ElementAt(w).end;
@@ -95,12 +114,15 @@ namespace SequencesParser
 
                                 if ((position >= start) && (position <= end))
                                 {
-                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Protein = genesList.geneslist.ElementAt(w).gene;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Gene = genesList.geneslist.ElementAt(w).gene;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Startcds = genesList.geneslist.ElementAt(w).start;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Endcds = genesList.geneslist.ElementAt(w).end;
                                 }
                             }
 
                         }
                     }
+                       
                     Console.WriteLine("writing genes part: " + j);
 
                 }
