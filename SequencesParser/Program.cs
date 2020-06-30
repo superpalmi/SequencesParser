@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -82,6 +81,7 @@ namespace SequencesParser
 
 
 
+
             //per ogni sequenza allineata calcola le differenze con la ref
             for (int i = 0; i < list.Seqs.Count; i++)
             {
@@ -113,7 +113,7 @@ namespace SequencesParser
                     {
                         for (int w = 0; w < genesList.geneslist.Count(); w++)
                         {
-                            if (genesList.geneslist.ElementAt(w).type == "CDS")
+                            if (genesList.geneslist.ElementAt(w).gbkey == "Gene")
                             {
                                 int start = genesList.geneslist.ElementAt(w).start;
                                 int end = genesList.geneslist.ElementAt(w).end;
@@ -149,13 +149,14 @@ namespace SequencesParser
                                                 int s = codons.ElementAt(i).Start;
                                                 int pos = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position;
                                                 int diff = pos - s;
-                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon = codons.ElementAt(i);
+                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon = codons.ElementAt(i);
                                                 o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = codons.ElementAt(i);
-                                                string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon.Triplet;
+                                               
                                                 
                                                 
                                                 if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.Length > 1)
                                                 {
+                                                    string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
                                                     // n.= o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(diff);
                                                     StringBuilder sb = new StringBuilder(n);
                                                     sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(diff);
@@ -163,6 +164,7 @@ namespace SequencesParser
                                                 }
                                                 else
                                                 {
+                                                    string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
                                                     StringBuilder sb = new StringBuilder(n);
                                                     //string a = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
                                                     sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
@@ -178,13 +180,14 @@ namespace SequencesParser
                                             }
                                         }
                                     }
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Gene = genesList.geneslist.ElementAt(w).gene;
+
                                 }
 
                             }
 
                         }
                     }
-                       
                     Console.WriteLine("writing genes part: " + j);
 
                 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SequencesParser
 {
-    class Codon
+   public class Codon
 
 
     {
