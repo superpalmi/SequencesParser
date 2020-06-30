@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data.OleDb;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -56,6 +57,31 @@ namespace SequencesParser
                 }
                 
             }
+          /*
+            //dividere ogni cds in codoni
+            List<Codon> codons = new List<Codon>();
+            for (int i=0; i<reference.Seq.Length; i+=3)
+            {
+               
+                string seq = reference.Seq;
+                if ((i - 3) < seq.Length)
+                {
+                    Codon codon = new Codon();
+                    codon.Start = i;
+                    codon.End = i + 2;
+                    codon.Triplet = seq.ElementAt(i).ToString() + seq.ElementAt(i + 1).ToString() + seq.ElementAt(i + 2).ToString();
+                    codons.Add(codon);
+                }
+                
+
+
+            }
+        */
+
+
+
+
+
             //per ogni sequenza allineata calcola le differenze con la ref
             for (int i = 0; i < list.Seqs.Count; i++)
             {
@@ -87,7 +113,7 @@ namespace SequencesParser
                     {
                         for (int w = 0; w < genesList.geneslist.Count(); w++)
                         {
-                            if (genesList.geneslist.ElementAt(w).gbkey == "Gene")
+                            if (genesList.geneslist.ElementAt(w).type == "CDS")
                             {
                                 int start = genesList.geneslist.ElementAt(w).start;
                                 int end = genesList.geneslist.ElementAt(w).end;
@@ -95,12 +121,70 @@ namespace SequencesParser
 
                                 if ((position >= start) && (position <= end))
                                 {
-                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Protein = genesList.geneslist.ElementAt(w).gene;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq = reference.Seq.Substring(start, end - start);
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Gene = genesList.geneslist.ElementAt(w).gene;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Startcds = genesList.geneslist.ElementAt(w).start;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Endcds = genesList.geneslist.ElementAt(w).end;
+                                    //dividere la cds associata ad ogni differenza in codoni associo il codone della ref alla nuova differenza
+                                    if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq != null)
+                                    {
+                                        List<Codon> codons = new List<Codon>();
+                                        for (int i = 0; i < o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq.Length; i += 3)
+                                        {
+
+                                            string seq = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq;
+                                            if ((i) < seq.Length-3)
+                                            {
+                                                Codon codon = new Codon();
+                                                codon.Start = i;
+                                                codon.End = i + 2;
+                                                codon.Triplet = seq.ElementAt(i).ToString() + seq.ElementAt(i + 1).ToString() + seq.ElementAt(i + 2).ToString();
+                                                codons.Add(codon);
+                                            }
+                                        }
+                                        for (int i = 0; i < codons.Count(); i++)
+                                        {
+                                            if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position >= codons.ElementAt(i).Start && o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position <= codons.ElementAt(i).End)
+                                            {
+                                                int s = codons.ElementAt(i).Start;
+                                                int pos = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position;
+                                                int diff = pos - s;
+                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon = codons.ElementAt(i);
+                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = codons.ElementAt(i);
+                                                string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon.Triplet;
+                                                
+                                                
+                                                if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.Length > 1)
+                                                {
+                                                    // n.= o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(diff);
+                                                    StringBuilder sb = new StringBuilder(n);
+                                                    sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(diff);
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet = sb.ToString();
+                                                }
+                                                else
+                                                {
+                                                    StringBuilder sb = new StringBuilder(n);
+                                                    //string a = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
+                                                    sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet = sb.ToString();
+
+                                                }
+                                                        // n = old.Replace(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon.Triplet.ElementAt(diff).ToString(), o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter);
+
+
+                                              
+
+
+                                            }
+                                        }
+                                    }
                                 }
+
                             }
 
                         }
                     }
+                       
                     Console.WriteLine("writing genes part: " + j);
 
                 }
