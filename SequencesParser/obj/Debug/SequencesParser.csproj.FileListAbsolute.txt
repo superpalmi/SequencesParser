@@ -117,13 +117,11 @@ C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSha
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharpAux.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharpAux.IO.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\JQ.Net.dll
-C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharp.Core.xml
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharpAux.pdb
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharpAux.xml
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharpAux.IO.pdb
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\FSharpAux.IO.xml
-C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\cs\FSharp.Core.resources.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\de\FSharp.Core.resources.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\es\FSharp.Core.resources.dll
@@ -137,7 +135,6 @@ C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\ru\F
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\tr\FSharp.Core.resources.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\zh-Hans\FSharp.Core.resources.dll
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\bin\Debug\zh-Hant\FSharp.Core.resources.dll
-C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csprojAssemblyReference.cache
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.exe.config
 >>>>>>> dev
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csproj.CoreCompileInputs.cache
