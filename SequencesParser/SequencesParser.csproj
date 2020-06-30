@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Codon.cs" />
     <Compile Include="Difference.cs" />
     <Compile Include="DifferenceList.cs" />
     <Compile Include="DifferenceOutput.cs" />

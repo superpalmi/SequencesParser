@@ -15,14 +15,19 @@ namespace SequencesParser
         private string newletter;
         private string oldletter;
         private string gene;
+        private string genseq;
         private int startcds;
         private int endcds;
-
+        private Codon oldcodon;
+        private Codon newcodon;
         public int Position { get => position; set => position = value; }
         public string Newletter { get => newletter; set => newletter = value; }
         public string Oldletter { get => oldletter; set => oldletter = value; }
         public string Gene { get => gene; set => gene = value; }
         public int Startcds { get => startcds; set => startcds = value; }
         public int Endcds { get => endcds; set => endcds = value; }
+        public string Genseq { get => genseq; set => genseq = value; }
+        internal Codon OldCodon { get => oldcodon; set => oldcodon = value; }
+        internal Codon Newcodon { get => newcodon; set => newcodon = value; }
     }
 }
