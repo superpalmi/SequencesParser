@@ -27,7 +27,7 @@ namespace SequencesParser
         public int Startcds { get => startcds; set => startcds = value; }
         public int Endcds { get => endcds; set => endcds = value; }
         public string Genseq { get => genseq; set => genseq = value; }
-        internal Codon OldCodon { get => oldcodon; set => oldcodon = value; }
-        internal Codon Newcodon { get => newcodon; set => newcodon = value; }
+        public Codon Oldcodon { get => oldcodon; set => oldcodon = value; }
+        public Codon Newcodon { get => newcodon; set => newcodon = value; }
     }
 }

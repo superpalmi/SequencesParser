@@ -128,8 +128,12 @@ namespace SequencesParser
                                     //dividere la cds associata ad ogni differenza in codoni associo il codone della ref alla nuova differenza
                                     if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq != null)
                                     {
-                                        List<Codon> codons = new List<Codon>();
-                                        for (int i = 0; i < o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq.Length; i += 3)
+                                        //List<Codon> codons = new List<Codon>();
+                                        int genst = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Startcds;
+                                        int genend = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Endcds;
+                                        int d = genend - genst;
+
+                                        for (int i = 0; i < d; i += 3)
                                         {
 
                                             string seq = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Genseq;
@@ -139,9 +143,50 @@ namespace SequencesParser
                                                 codon.Start = i;
                                                 codon.End = i + 2;
                                                 codon.Triplet = seq.ElementAt(i).ToString() + seq.ElementAt(i + 1).ToString() + seq.ElementAt(i + 2).ToString();
-                                                codons.Add(codon);
+
+                                                if ((o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position >= codon.Start) && (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position <= codon.End))
+                                                {
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon = new Codon();
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon = codon;
+                                                 /*   o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = new Codon();
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = codon;*/
+                                                    int s = codon.Start;
+                                                    int pos = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position;
+                                                    int diff = pos - s-1;
+                                                    string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
+                                                    StringBuilder sb = new StringBuilder(n);
+                                                    //string a = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
+                                                    for (int l=0; l< o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.Length; l++){
+
+                                                        if ((diff + l < o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.Length) && (diff + l < n.Length))
+                                                        {
+                                                            sb[diff + l] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(l);
+                                                        }
+                                                        else if (diff + l < n.Length)
+                                                        {
+                                                            sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(l);
+                                                        }
+                                                    }
+
+                                                    //o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = new Codon();
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = new Codon();
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet = sb.ToString();
+                                                    string nuovalettera = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter;
+                                                    string vecchialettera = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldletter;
+                                                    string pluto = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
+                                                    string pippo = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet;
+                    
+
+
+
+
+
+
+                                                }
+                                               // codons.Add(codon);
                                             }
                                         }
+                                        /*
                                         for (int i = 0; i < codons.Count(); i++)
                                         {
                                             if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position >= codons.ElementAt(i).Start && o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position <= codons.ElementAt(i).End)
@@ -149,24 +194,32 @@ namespace SequencesParser
                                                 int s = codons.ElementAt(i).Start;
                                                 int pos = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position;
                                                 int diff = pos - s;
-                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon = codons.ElementAt(i);
-                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = codons.ElementAt(i);
-                                                string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon.Triplet;
+                                                o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon = codons.ElementAt(i);
+                                                //o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = codons.ElementAt(i);
+                                             
                                                 
                                                 
                                                 if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.Length > 1)
                                                 {
+                                                    string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
                                                     // n.= o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(diff);
                                                     StringBuilder sb = new StringBuilder(n);
                                                     sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(diff);
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = new Codon();
                                                     o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet = sb.ToString();
+                                                    string pluto = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
+                                                    string pippo = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet;
                                                 }
                                                 else
                                                 {
+                                                    string n = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
                                                     StringBuilder sb = new StringBuilder(n);
                                                     //string a = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
                                                     sb[diff] = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter.ElementAt(0);
+                                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = new Codon();
                                                     o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet = sb.ToString();
+                                                    string pluto = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Triplet;
+                                                    string pippo = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Triplet;
 
                                                 }
                                                         // n = old.Replace(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).OldCodon.Triplet.ElementAt(diff).ToString(), o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newletter);
@@ -176,7 +229,7 @@ namespace SequencesParser
 
 
                                             }
-                                        }
+                                        }*/
                                     }
                                 }
 
@@ -207,7 +260,7 @@ namespace SequencesParser
         public static void DifferenceCalculator(DifferenceList diffs)
         {
             diffs.Differences = new List<Difference>();
-
+            //1
             for (int i = 0; i < diffs.Seq2.Seq.Length; i++)
             {
                 int j = 1;
