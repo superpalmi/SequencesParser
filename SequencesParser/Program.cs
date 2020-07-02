@@ -18,6 +18,8 @@ namespace SequencesParser
     /// </summary>
     public class Program
     {
+        public static int[,] matrix;
+        public static int indice = 0;
         static void Main(string[] args)
         {
             //prendo i file json utili alla scansione delle sequenze allineate
@@ -43,6 +45,8 @@ namespace SequencesParser
             //creo l'oggetto delle variazioni da stampare in output
             DifferenceOutput o = new DifferenceOutput();
             o.DifferenceLists = new List<DifferenceList>();
+
+            
 
 
             Console.WriteLine("numero sequenze presenti: " + list.Seqs.Count);
@@ -98,12 +102,17 @@ namespace SequencesParser
             
             if (path1 != null)
             {   //per ogni lista di differenza tra sequenze
+                matrix = new int[o.DifferenceLists.Count+1, genesList.geneslist.Count()+1];
                 for (int j = 0; j < o.DifferenceLists.Count; j++)
-                {   //per ogni differenza tra due sequenze
+                {
+                    indice++;
+                    //per ogni differenza tra due sequenze
                     for (int k = 0; k < o.DifferenceLists.ElementAt(j).Differences.Count; k++)
                     {   //per ogni gene presente nel file gene-annotation
+                        int cont = 0;
                         for (int w = 0; w < genesList.geneslist.Count(); w++)
                         {
+                            
                             if (genesList.geneslist.ElementAt(w).type == "CDS")
                             {
                                 
@@ -184,6 +193,7 @@ namespace SequencesParser
                                             
                                             if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid != o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid)
                                             {
+                                                matrix[indice,cont] = 1;
                                                 Console.WriteLine(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid + " al posto di " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid + " nella sequenza " + o.DifferenceLists.ElementAt(j).Seq2.Name + " in posizione " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position);
                                             }
 
@@ -201,7 +211,7 @@ namespace SequencesParser
                               
                                }
 
-                            
+                            cont++;
 
                         }
 
@@ -213,6 +223,8 @@ namespace SequencesParser
                 
 
             }
+
+            createMatrix(o, genesList);
 
 
 
@@ -298,6 +310,20 @@ namespace SequencesParser
             
         }
 
+        public static void createMatrix(DifferenceOutput o, GenesList genesList)
+        {
+           // StreamWriter sw = new StreamWriter();
+            StreamWriter sw = File.CreateText("Matrix.txt");
+            for (int k = 0; k < o.DifferenceLists.Count; k++)
+            {
+                for (int t = 0; t < genesList.geneslist.Count; t++)
+                {
+                    sw.Write(matrix[k, t] + " ");
+                }
+                sw.Write(o.DifferenceLists.ElementAt(k).Seq2.Name + "\n");
+            }
+            sw.Close();
+        }
 
 
 
