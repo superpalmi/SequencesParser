@@ -35,7 +35,7 @@ namespace SequencesParser
 
             genesList = JsonConvert.DeserializeObject<GenesList>(file2);
 
-            GenesList geneswithcds = new GenesList();
+          
 
             string file3 = File.ReadAllText(path2);
             //deserializzo file di sequenze allineate
@@ -100,30 +100,45 @@ namespace SequencesParser
                 }
 
             }
+            GenesList geneswithcds = new GenesList();
+            geneswithcds.geneslist = new List<Gene>();
+           
+            //trova i geni con cds nel file gene-annotation
+            for (int w = 0; w < genesList.geneslist.Count(); w++)
+            {
+
+                if (genesList.geneslist.ElementAt(w).type == "CDS")
+                {
+                    geneswithcds.geneslist.Add(genesList.geneslist.ElementAt(w)); 
+                }
+            }
+            //crea la matrice
+            matrix = new int[o.DifferenceLists.Count + 1, geneswithcds.geneslist.Count + 1];
+
             //scrive i geni corrispondenti se presente il file gene-annotation
-            
             if (path1 != null)
             {   //per ogni lista di differenza tra sequenze
-                matrix = new int[o.DifferenceLists.Count+1, genesList.geneslist.Count()+1];
-                for (int j = 0; j < o.DifferenceLists.Count; j++)
+               
+                
+                for (int j = 1; j < o.DifferenceLists.Count; j++)
                 {
                     indice++;
                     //per ogni differenza tra due sequenze
                     for (int k = 0; k < o.DifferenceLists.ElementAt(j).Differences.Count; k++)
                     {   //per ogni gene presente nel file gene-annotation
                         int cont = 0;
-                        for (int w = 0; w < genesList.geneslist.Count(); w++)
+                        for (int w = 0; w < geneswithcds.geneslist.Count(); w++)
                         {
                             
-                            if (genesList.geneslist.ElementAt(w).type == "CDS")
+                            if (geneswithcds.geneslist.ElementAt(w).type == "CDS")
                             {
-                                //geneswithcds.geneslist = new List<Gene>();
-                               // geneswithcds.geneslist.Add(genesList.geneslist.ElementAt(w));
+                                
+                               
                                 
                                 //posizione globale d'inizio del gene
-                                int start = genesList.geneslist.ElementAt(w).start;
+                                int start = geneswithcds.geneslist.ElementAt(w).start;
                                 //posizione globale di fine del gene
-                                int end = genesList.geneslist.ElementAt(w).end;
+                                int end = geneswithcds.geneslist.ElementAt(w).end;
                                 //posizione globale della differenza tra due sequenze
                                 int position = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position;
                                 //posizione relativa all'interno del gene
@@ -134,9 +149,9 @@ namespace SequencesParser
                                 {
 
 
-                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Gene = genesList.geneslist.ElementAt(w).gene;
-                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Startcds = genesList.geneslist.ElementAt(w).start;
-                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Endcds = genesList.geneslist.ElementAt(w).end;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Gene = geneswithcds.geneslist.ElementAt(w).gene;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Startcds = geneswithcds.geneslist.ElementAt(w).start;
+                                    o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Endcds = geneswithcds.geneslist.ElementAt(w).end;
                                     
 
                                     int fine = (3 - ((end - start) % 3)); //posizione fine del gene
@@ -197,6 +212,7 @@ namespace SequencesParser
                                             
                                             if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid != o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid)
                                             {
+                                                //inserisce 1 nella matrice quando trova una tripletta mutata
                                                 matrix[indice,cont] = 1;
                                                 Console.WriteLine(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid + " al posto di " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid + " nella sequenza " + o.DifferenceLists.ElementAt(j).Seq2.Name + " in posizione " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position);
                                             }
@@ -224,11 +240,11 @@ namespace SequencesParser
                     }
                     
                 }
-                
 
+               
             }
-
-            createMatrix(o, genesList);
+            //costruisce la matrice
+            createMatrix(o, geneswithcds);
 
 
 
@@ -239,7 +255,7 @@ namespace SequencesParser
 
             //serializzo l'oggetto con le differenze
             string diffJSON = JsonConvert.SerializeObject(o);
-           var path3 = Path.Combine(Directory.GetCurrentDirectory(), "differences.json");
+              var path3 = Path.Combine(Directory.GetCurrentDirectory(), "differences.json");
               System.IO.File.WriteAllText(path3, diffJSON);
             }
         
@@ -322,16 +338,16 @@ namespace SequencesParser
             {
                 if (genesList.geneslist.ElementAt(t).gene != null)
                 {
-                    sw.Write(t + ") " + genesList.geneslist.ElementAt(t).gene + " ");
+                    sw.Write( genesList.geneslist.ElementAt(t).gene + "    ");
                 }
-                else sw.Write(t + ") " + "null"+ " ");
+                else sw.Write( "null"+ " ");
             }
-            sw.Write("----------------------------------------------------------------------------------------------------");
-            for (int k = 1; k < o.DifferenceLists.Count; k++)
+            sw.WriteLine("");
+            for (int k = 0; k < o.DifferenceLists.Count; k++)
             {
                 for (int t = 0; t < genesList.geneslist.Count; t++)
                 {
-                    sw.Write( matrix[k, t] + "      "  );
+                    sw.Write( matrix[k, t] + "        "  );
                 }
                 sw.Write(o.DifferenceLists.ElementAt(k).Seq2.Name + "\n");
             }
