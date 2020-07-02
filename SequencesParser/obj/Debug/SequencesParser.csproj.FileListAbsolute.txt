@@ -7,3 +7,4 @@ C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\Sequ
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csproj.CopyComplete
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.exe
 C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.pdb
+C:\Users\Riccardo\Dropbox\bioinfo\SequencesParser\SequencesParser\obj\Debug\SequencesParser.csprojAssemblyReference.cache

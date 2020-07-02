@@ -35,6 +35,8 @@ namespace SequencesParser
 
             genesList = JsonConvert.DeserializeObject<GenesList>(file2);
 
+            GenesList geneswithcds = new GenesList();
+
             string file3 = File.ReadAllText(path2);
             //deserializzo file di sequenze allineate
             SequencesList list = new SequencesList();
@@ -115,6 +117,8 @@ namespace SequencesParser
                             
                             if (genesList.geneslist.ElementAt(w).type == "CDS")
                             {
+                                //geneswithcds.geneslist = new List<Gene>();
+                               // geneswithcds.geneslist.Add(genesList.geneslist.ElementAt(w));
                                 
                                 //posizione globale d'inizio del gene
                                 int start = genesList.geneslist.ElementAt(w).start;
@@ -235,8 +239,8 @@ namespace SequencesParser
 
             //serializzo l'oggetto con le differenze
             string diffJSON = JsonConvert.SerializeObject(o);
-                    var path3 = Path.Combine(Directory.GetCurrentDirectory(), "differences.json");
-                    System.IO.File.WriteAllText(path3, diffJSON);
+           var path3 = Path.Combine(Directory.GetCurrentDirectory(), "differences.json");
+              System.IO.File.WriteAllText(path3, diffJSON);
             }
         
 
@@ -314,11 +318,20 @@ namespace SequencesParser
         {
            // StreamWriter sw = new StreamWriter();
             StreamWriter sw = File.CreateText("Matrix.txt");
-            for (int k = 0; k < o.DifferenceLists.Count; k++)
+            for (int t = 0; t < genesList.geneslist.Count; t++)
+            {
+                if (genesList.geneslist.ElementAt(t).gene != null)
+                {
+                    sw.Write(t + ") " + genesList.geneslist.ElementAt(t).gene + " ");
+                }
+                else sw.Write(t + ") " + "null"+ " ");
+            }
+            sw.Write("----------------------------------------------------------------------------------------------------");
+            for (int k = 1; k < o.DifferenceLists.Count; k++)
             {
                 for (int t = 0; t < genesList.geneslist.Count; t++)
                 {
-                    sw.Write(matrix[k, t] + " ");
+                    sw.Write( matrix[k, t] + "      "  );
                 }
                 sw.Write(o.DifferenceLists.ElementAt(k).Seq2.Name + "\n");
             }
