@@ -59,26 +59,7 @@ namespace SequencesParser
                 }
 
             }
-            /*
-              //dividere ogni cds in codoni
-              List<Codon> codons = new List<Codon>();
-              for (int i=0; i<reference.Seq.Length; i+=3)
-              {
-
-                  string seq = reference.Seq;
-                  if ((i - 3) < seq.Length)
-                  {
-                      Codon codon = new Codon();
-                      codon.Start = i;
-                      codon.End = i + 2;
-                      codon.Triplet = seq.ElementAt(i).ToString() + seq.ElementAt(i + 1).ToString() + seq.ElementAt(i + 2).ToString();
-                      codons.Add(codon);
-                  }
-
-
-
-              }
-          */
+         
 
 
 
@@ -92,12 +73,12 @@ namespace SequencesParser
                 DifferenceList diffs = new DifferenceList();
                 diffs.Seq1 = reference;
                 diffs.Seq2 = list.Seqs.ElementAt(i);
-               
+               //calcola le differenze tra ref e seq 2
                 DifferenceCalculator(diffs);
 
                
                 
-
+                //aggiunge le differenze tra le due sequenze alla lista di differenze globali
                 o.DifferenceLists.Add(diffs);
                 
                 Console.WriteLine("measuring differences of sequence: " + i);
@@ -114,22 +95,26 @@ namespace SequencesParser
             //scrive i geni corrispondenti se presente il file gene-annotation
             
             if (path1 != null)
-            {
+            {   //per ogni lista di differenza tra sequenze
                 for (int j = 0; j < o.DifferenceLists.Count; j++)
-                {
+                {   //per ogni differenza tra due sequenze
                     for (int k = 0; k < o.DifferenceLists.ElementAt(j).Differences.Count; k++)
-                    {
+                    {   //per ogni gene presente nel file gene-annotation
                         for (int w = 0; w < genesList.geneslist.Count(); w++)
                         {
                             if (genesList.geneslist.ElementAt(w).type == "CDS")
                             {
                                 
-
+                                //posizione globale d'inizio del gene
                                 int start = genesList.geneslist.ElementAt(w).start;
+                                //posizione globale di fine del gene
                                 int end = genesList.geneslist.ElementAt(w).end;
+                                //posizione globale della differenza tra due sequenze
                                 int position = o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position;
+                                //posizione relativa all'interno del gene
                                 int relpos = position - start;
 
+                                //se la posizione rientra nel range del gene allora salvo il gene associato alla differenza
                                 if ((position >= start) && (position <= end))
                                 {
 
@@ -148,6 +133,7 @@ namespace SequencesParser
 
                                     List<Codon> oldcodons = new List<Codon>();
                                     List<Codon> newcodons = new List<Codon>();
+                                    //divido il gene in triplette e le inserisco in una lista
                                     for (int t = 0; t < end - start + fine; t += 3)
                                     {
 
@@ -155,9 +141,10 @@ namespace SequencesParser
                                         Codon nuovo = new Codon();
                                                  
                                         old.Triplet = geneRef[t].ToString() + geneRef[t + 1] + geneRef[t + 2];
-                                        old.Aminoacid = getProtein(old.Triplet);
+                                        //calcolo l'amminoacido associato alla vecchia tripletta
+                                        old.Aminoacid = getAminoacid(old.Triplet);
                                                 
-                                        //posizione relativa al gene
+                                       
                                         old.Start = t+1;
                                                 
                                         old.End = t + 3;
@@ -165,8 +152,9 @@ namespace SequencesParser
 
                                                 
                                         nuovo.Triplet = geneCurSeq[t].ToString() + geneCurSeq[t + 1] + geneCurSeq[t+ 2];
-                                        nuovo.Aminoacid = getProtein(nuovo.Triplet);
-                                                
+                                        //calcolo l'amminoacido associato alla nuova tripletta
+                                        nuovo.Aminoacid = getAminoacid(nuovo.Triplet);
+                                        //t+1 perché parte da 0 mentre nel file le sequenze partono da 1       
                                         nuovo.Start = t+1;
                                                 
                                         nuovo.End = t + +3;
@@ -176,7 +164,7 @@ namespace SequencesParser
 
 
                                     }
-
+                                    // prendo la tripletta della reference associata alla differenza
                                     for (int r=0; r<oldcodons.Count; r++)
                                     {
                                         if(relpos>=oldcodons.ElementAt(r).Start && relpos <= oldcodons.ElementAt(r).End)
@@ -185,11 +173,13 @@ namespace SequencesParser
                                         }
 
                                     }
+                                    //prendo la tripletta della seconda sequenza associata alla differenza
                                     for (int s=0; s<newcodons.Count; s++)
                                     {
                                         if (relpos>=newcodons.ElementAt(s).Start && relpos <= newcodons.ElementAt(s).End)
                                         {
                                             o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = newcodons.ElementAt(s);
+                                            
                                             if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid != o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid)
                                             {
                                                 Console.WriteLine(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid + " al posto di " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid + " nella sequenza " + o.DifferenceLists.ElementAt(j).Seq2.Name + " in posizione " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position);
@@ -209,13 +199,13 @@ namespace SequencesParser
                               
                                }
 
-                            Console.WriteLine("writing genes part: " + j);
+                            
 
                         }
 
-                     
 
-                }
+                        Console.WriteLine("writing genes part: " + j);
+                    }
                     
                 }
                 
@@ -227,9 +217,9 @@ namespace SequencesParser
 
 
 
-            //stampa a video le differenze
+            
 
-
+            //serializzo l'oggetto con le differenze
             string diffJSON = JsonConvert.SerializeObject(o);
                     var path3 = Path.Combine(Directory.GetCurrentDirectory(), "differences.json");
                     System.IO.File.WriteAllText(path3, diffJSON);
@@ -246,7 +236,7 @@ namespace SequencesParser
             diffs.Differences = new List<Difference>();
 
 
-            //1
+            //per la lunghezza di tutta la stringa di sequenza controllo le differenze con la ref
             for (int i = 0; i < diffs.Seq2.Seq.Length; i++)
             {
                 int j = 1;
@@ -261,7 +251,7 @@ namespace SequencesParser
                     {
                         while (diffs.Seq2.Seq.ElementAt(i + j) != diffs.Seq1.Seq.ElementAt(i + j) && (i + j < diffs.Seq1.Seq.Length - 1))
                         {
-
+                            //concatena le eventuali mutazioni più lunghe di 1
                             conc = conc + "" + diffs.Seq2.Seq.ElementAt(i + j).ToString();
                             oldconc = oldconc + "" + diffs.Seq1.Seq.ElementAt(i + j).ToString();
                             d.Newletter = conc;
@@ -309,14 +299,14 @@ namespace SequencesParser
 
 
 
-
-        public static string getProtein(string tripletta)
+        //metodo che ritorna l'amminoacido relativo alla tripletta associata
+        public static string getAminoacid(string triplet)
         {
-            if (tripletta.Contains("N"))
+            if (triplet.Contains("N"))
             {
-                return "ND - Codone Non Determinabile";
+                return "ND - Tripletta non determinabile";
             }
-            switch (tripletta)
+            switch (triplet)
             {
                 case "TTT":
                 case "TTC":
