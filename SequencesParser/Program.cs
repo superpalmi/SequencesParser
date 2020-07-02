@@ -22,7 +22,9 @@ namespace SequencesParser
         {
             //prendo i file json utili alla scansione delle sequenze allineate
             var path = Directory.GetCurrentDirectory();
+            // i file gff dell'annotazione genica sono stati convertiti in json tramite un tool recuperabile sul web
             var path1 = Path.Combine(Directory.GetCurrentDirectory(), "gene-annotation.json");
+            //il file json delle sequenze allineate si può recuperare rapidamente da Jalview tramite Output to textbox
             var path2 = Path.Combine(Directory.GetCurrentDirectory(), "alligned-sequences.json");
 
             string file2 = File.ReadAllText(path1);
