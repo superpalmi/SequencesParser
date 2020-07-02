@@ -30,4 +30,4 @@ namespace SequencesParser
         public Codon Oldcodon { get => oldcodon; set => oldcodon = value; }
         public Codon Newcodon { get => newcodon; set => newcodon = value; }
     }
-    }
+}
