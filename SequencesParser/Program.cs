@@ -338,7 +338,7 @@ namespace SequencesParser
             {
                 if (genesList.geneslist.ElementAt(t).gene != null)
                 {
-                    sw.Write( genesList.geneslist.ElementAt(t).gene + "    ");
+                    sw.Write( genesList.geneslist.ElementAt(t).gene + " Start: " + genesList.geneslist.ElementAt(t).start + " End: " + genesList.geneslist.ElementAt(t).end + " | ");
                 }
                 else sw.Write( "null"+ " ");
             }
@@ -347,7 +347,7 @@ namespace SequencesParser
             {
                 for (int t = 0; t < genesList.geneslist.Count; t++)
                 {
-                    sw.Write( matrix[k, t] + "        "  );
+                    sw.Write( matrix[k, t] + "                                          "  );
                 }
                 sw.Write(o.DifferenceLists.ElementAt(k).Seq2.Name + "\n");
             }
