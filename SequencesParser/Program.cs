@@ -165,7 +165,7 @@ namespace SequencesParser
 
                                                 
                                         nuovo.Triplet = geneCurSeq[t].ToString() + geneCurSeq[t + 1] + geneCurSeq[t+ 2];
-                                        nuovo.Aminoacid = getProtein(old.Triplet);
+                                        nuovo.Aminoacid = getProtein(nuovo.Triplet);
                                                 
                                         nuovo.Start = t+1;
                                                 
@@ -190,16 +190,17 @@ namespace SequencesParser
                                         if (relpos>=newcodons.ElementAt(s).Start && relpos <= newcodons.ElementAt(s).End)
                                         {
                                             o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon = newcodons.ElementAt(s);
+                                            if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid != o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid)
+                                            {
+                                                Console.WriteLine(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid + " al posto di " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid + " nella sequenza " + o.DifferenceLists.ElementAt(j).Seq2.Name + " in posizione " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position);
+                                            }
 
 
                                         }
                                     }
 
 
-                                    if (o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid != o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid)
-                                    {
-                                        Console.WriteLine(o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Newcodon.Aminoacid + " al posto di " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Oldcodon.Aminoacid + " nella sequenza " + o.DifferenceLists.ElementAt(j).Seq2.Name + " in posizione " + o.DifferenceLists.ElementAt(j).Differences.ElementAt(k).Position);
-                                    }
+                                   
 
                                 }
 
