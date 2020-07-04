@@ -329,7 +329,7 @@ namespace SequencesParser
 
             
         }
-
+        //scrive su file la matrice, 0 se il gene non è stato modificato, 1 se è stato modificato
         public static void createMatrix(DifferenceOutput o, GenesList genesList)
         {
            // StreamWriter sw = new StreamWriter();
